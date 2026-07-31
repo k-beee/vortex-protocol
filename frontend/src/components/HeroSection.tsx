@@ -80,7 +80,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             </div>
             <div className="space-y-1">
               <div className="text-xs font-mono text-gray-500 uppercase">NETWORK:</div>
-              <div className="font-bold font-mono text-black text-sm">Studionet IC</div>
+              <div className="font-bold font-mono text-black text-sm">Studionet</div>
             </div>
           </div>
 
