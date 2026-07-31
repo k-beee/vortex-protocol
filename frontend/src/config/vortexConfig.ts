@@ -1,14 +1,14 @@
 import { createClient, chains } from "genlayer-js";
 import type { Address } from "viem";
 
-// Target Network: GenLayer Studionet (as specified by user requirement)
+// Target Network: GenLayer Studionet
 export const VORTEX_NETWORK = chains.studionet;
 export const VORTEX_CHAIN_NAME = "GenLayer Studionet";
 export const VORTEX_CHAIN_ID = VORTEX_NETWORK.id;
 
-// Deployed Contract Address on Studionet (will be updated once user deploys on Studionet)
+// Deployed Intelligent Contract Address on Studionet
 export const VORTEX_CONTRACT_ADDRESS = (import.meta.env.VITE_VORTEX_CONTRACT_ADDRESS ??
-  "0x0000000000000000000000000000000000000000") as Address;
+  "0x439A57ae7163a9100fCA2a04dfB827475Db3513e") as Address;
 
 // GenLayer Read Client configured for Studionet RPC
 export const readClient = createClient({
