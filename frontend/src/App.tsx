@@ -91,27 +91,41 @@ export function App() {
   };
 
   const handleSubmitPrediction = async (vortexId: string, side: "BULL" | "BEAR", stakeGen: number) => {
+    const stakeWei = stakeGen * 1e18;
+
+    // Update market pools dynamically
     setMarkets((prev) =>
       prev.map((m) => {
         if (m.vortex_id === vortexId) {
           const currentBull = Number(m.bull_pool_total);
           const currentBear = Number(m.bear_pool_total);
           const currentAgg = Number(m.aggregate_pool_total);
+          const currentParticipants = Number(m.participant_count);
 
-          const updatedBull = side === "BULL" ? currentBull + stakeGen * 1e18 : currentBull;
-          const updatedBear = side === "BEAR" ? currentBear + stakeGen * 1e18 : currentBear;
-          const updatedAgg = currentAgg + stakeGen * 1e18;
+          const updatedBull = side === "BULL" ? currentBull + stakeWei : currentBull;
+          const updatedBear = side === "BEAR" ? currentBear + stakeWei : currentBear;
+          const updatedAgg = currentAgg + stakeWei;
 
           return {
             ...m,
             bull_pool_total: String(updatedBull),
             bear_pool_total: String(updatedBear),
             aggregate_pool_total: String(updatedAgg),
+            participant_count: String(currentParticipants + 1),
           };
         }
         return m;
       })
     );
+
+    // Update protocol telemetry total volume dynamically
+    setTelemetry((prev) => {
+      const currentVol = Number(prev.total_staked_volume);
+      return {
+        ...prev,
+        total_staked_volume: String(currentVol + stakeWei),
+      };
+    });
   };
 
   const handleCreateMarket = async (asset: string, candleStart: number) => {

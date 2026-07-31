@@ -13,8 +13,7 @@ export function createWriteClient(address: Address, provider: EIP1193Provider) {
 
 /**
  * Returns dynamic hourly-renewing markets for BTC, ETH, SOL, BNB, and AVAX.
- * Computes timestamps relative to current UTC hour so markets automatically
- * rollover and renew every single hour without going stale.
+ * Starts all pool totals and staked volume strictly at 0 GEN until users interact.
  */
 export function getHourlyRenewingMarkets(): VortexMarketRecord[] {
   const now = Math.floor(Date.now() / 1000);
@@ -25,7 +24,7 @@ export function getHourlyRenewingMarkets(): VortexMarketRecord[] {
     {
       vortex_id: "0",
       lookup_key: "BTC:1H_UTC_INTERVAL:" + nextHour,
-      creator: "0x439A57ae7163a9100fCA2a04dfB827475Db3513e",
+      creator: VORTEX_CONTRACT_ADDRESS,
       asset: "BTC",
       pair: "BTCUSDT",
       category: "DECISION_MARKET",
@@ -41,16 +40,16 @@ export function getHourlyRenewingMarkets(): VortexMarketRecord[] {
       resolved_at: "0",
       state: "OPEN",
       outcome: "UNRESOLVED",
-      bull_pool_total: "420000000000000000000", // 420 GEN
-      bear_pool_total: "280000000000000000000", // 280 GEN
-      aggregate_pool_total: "700000000000000000000", // 700 GEN
-      participant_count: "34",
+      bull_pool_total: "0", // 0 GEN until users stake
+      bear_pool_total: "0", // 0 GEN until users stake
+      aggregate_pool_total: "0", // 0 GEN total
+      participant_count: "0",
       live_status: "OPEN",
     },
     {
       vortex_id: "1",
       lookup_key: "ETH:1H_UTC_INTERVAL:" + nextHour,
-      creator: "0x439A57ae7163a9100fCA2a04dfB827475Db3513e",
+      creator: VORTEX_CONTRACT_ADDRESS,
       asset: "ETH",
       pair: "ETHUSDT",
       category: "DECISION_MARKET",
@@ -66,16 +65,16 @@ export function getHourlyRenewingMarkets(): VortexMarketRecord[] {
       resolved_at: "0",
       state: "OPEN",
       outcome: "UNRESOLVED",
-      bull_pool_total: "150000000000000000000", // 150 GEN
-      bear_pool_total: "250000000000000000000", // 250 GEN
-      aggregate_pool_total: "400000000000000000000", // 400 GEN
-      participant_count: "19",
+      bull_pool_total: "0",
+      bear_pool_total: "0",
+      aggregate_pool_total: "0",
+      participant_count: "0",
       live_status: "OPEN",
     },
     {
       vortex_id: "2",
       lookup_key: "SOL:1H_UTC_INTERVAL:" + nextHour,
-      creator: "0x439A57ae7163a9100fCA2a04dfB827475Db3513e",
+      creator: VORTEX_CONTRACT_ADDRESS,
       asset: "SOL",
       pair: "SOLUSDT",
       category: "DECISION_MARKET",
@@ -91,16 +90,16 @@ export function getHourlyRenewingMarkets(): VortexMarketRecord[] {
       resolved_at: "0",
       state: "OPEN",
       outcome: "UNRESOLVED",
-      bull_pool_total: "180000000000000000000", // 180 GEN
-      bear_pool_total: "170000000000000000000", // 170 GEN
-      aggregate_pool_total: "350000000000000000000", // 350 GEN
-      participant_count: "15",
+      bull_pool_total: "0",
+      bear_pool_total: "0",
+      aggregate_pool_total: "0",
+      participant_count: "0",
       live_status: "OPEN",
     },
     {
       vortex_id: "3",
       lookup_key: "BNB:1H_UTC_INTERVAL:" + nextHour,
-      creator: "0x439A57ae7163a9100fCA2a04dfB827475Db3513e",
+      creator: VORTEX_CONTRACT_ADDRESS,
       asset: "BNB",
       pair: "BNBUSDT",
       category: "DECISION_MARKET",
@@ -116,16 +115,16 @@ export function getHourlyRenewingMarkets(): VortexMarketRecord[] {
       resolved_at: "0",
       state: "OPEN",
       outcome: "UNRESOLVED",
-      bull_pool_total: "210000000000000000000", // 210 GEN
-      bear_pool_total: "190000000000000000000", // 190 GEN
-      aggregate_pool_total: "400000000000000000000", // 400 GEN
-      participant_count: "18",
+      bull_pool_total: "0",
+      bear_pool_total: "0",
+      aggregate_pool_total: "0",
+      participant_count: "0",
       live_status: "OPEN",
     },
     {
       vortex_id: "4",
       lookup_key: "AVAX:1H_UTC_INTERVAL:" + (currentHour - 3600),
-      creator: "0x439A57ae7163a9100fCA2a04dfB827475Db3513e",
+      creator: VORTEX_CONTRACT_ADDRESS,
       asset: "AVAX",
       pair: "AVAXUSDT",
       category: "DECISION_MARKET",
@@ -141,10 +140,10 @@ export function getHourlyRenewingMarkets(): VortexMarketRecord[] {
       resolved_at: String(currentHour + 180),
       state: "SETTLED",
       outcome: "BULL",
-      bull_pool_total: "310000000000000000000", // 310 GEN
-      bear_pool_total: "190000000000000000000", // 190 GEN
-      aggregate_pool_total: "500000000000000000000", // 500 GEN
-      participant_count: "22",
+      bull_pool_total: "0",
+      bear_pool_total: "0",
+      aggregate_pool_total: "0",
+      participant_count: "0",
       live_status: "SETTLED",
       consensus_summary: {
         asset: "AVAX",
@@ -167,28 +166,28 @@ export function getHourlyRenewingMarkets(): VortexMarketRecord[] {
 }
 
 /**
- * Returns dynamic protocol telemetry specs
+ * Returns dynamic protocol telemetry specs starting strictly at 0 GEN
  */
 export function getProtocolTelemetry(): ProtocolTelemetry {
   return {
     admin: VORTEX_CONTRACT_ADDRESS,
-    operator: "0x439A57ae7163a9100fCA2a04dfB827475Db3513e",
+    operator: VORTEX_CONTRACT_ADDRESS,
     vortex_counter: "5",
     active_markets: "4",
     settled_markets: "1",
     aborted_markets: "0",
     inconclusive_markets: "0",
-    total_staked_volume: "2350000000000000000000", // 2350 GEN
-    total_payouts: "500000000000000000000",       // 500 GEN
-    total_refunds: "0",
-    contract_balance: "1850000000000000000000",   // 1850 GEN
+    total_staked_volume: "0", // 0 GEN initially
+    total_payouts: "0",       // 0 GEN initially
+    total_refunds: "0",       // 0 GEN initially
+    contract_balance: "0",    // 0 GEN initially
     supported_assets: ["BTC", "ETH", "SOL", "BNB", "AVAX"],
     venues: ["BINANCE", "BYBIT", "GATEIO", "MEXC", "BITGET"],
   };
 }
 
 /**
- * Reads live contract telemetry from Studionet if available, merging seamlessly
+ * Reads live contract telemetry from Studionet if available
  */
 export async function fetchProtocolTelemetry(): Promise<ProtocolTelemetry> {
   const fallback = getProtocolTelemetry();
@@ -205,7 +204,7 @@ export async function fetchProtocolTelemetry(): Promise<ProtocolTelemetry> {
 
     if (typeof rawData === "string") {
       const parsed = JSON.parse(rawData);
-      if (parsed && parsed.vortex_counter && parseInt(parsed.vortex_counter, 10) > 0) {
+      if (parsed) {
         return { ...fallback, ...parsed };
       }
     }
@@ -216,7 +215,7 @@ export async function fetchProtocolTelemetry(): Promise<ProtocolTelemetry> {
 }
 
 /**
- * Reads live markets from contract if present, or provides auto-renewing 1-hour markets
+ * Reads live markets from contract if present
  */
 export async function fetchVortexMarkets(): Promise<VortexMarketRecord[]> {
   const hourlyMarkets = getHourlyRenewingMarkets();
