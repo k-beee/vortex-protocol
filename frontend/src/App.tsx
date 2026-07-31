@@ -14,7 +14,7 @@ import { Footer } from "./components/Footer";
 import {
   fetchProtocolTelemetry,
   fetchVortexMarkets,
-  getHourlyRenewingMarkets,
+  getExtendedJudgedMarkets,
   getProtocolTelemetry,
   submitPredictionTransaction,
 } from "./services/genlayerService";
@@ -24,7 +24,7 @@ import { PlusCircle, RefreshCw } from "lucide-react";
 
 export function App() {
   const [userAddress, setUserAddress] = useState<string | null>(null);
-  const [markets, setMarkets] = useState<VortexMarketRecord[]>(getHourlyRenewingMarkets());
+  const [markets, setMarkets] = useState<VortexMarketRecord[]>(getExtendedJudgedMarkets());
   const [telemetry, setTelemetry] = useState<ProtocolTelemetry>(getProtocolTelemetry());
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -45,7 +45,7 @@ export function App() {
   const [isHowItWorksOpen, setIsHowItWorksOpen] = useState<boolean>(false);
   const [isCreateMarketOpen, setIsCreateMarketOpen] = useState<boolean>(false);
 
-  // Load live Studionet contract data with hourly renewing fallback
+  // Load live Studionet contract data with extended fallback
   const loadContractData = async () => {
     try {
       const liveTelemetry = await fetchProtocolTelemetry();
@@ -201,7 +201,7 @@ export function App() {
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
             <div>
               <h2 className="font-heading font-extrabold text-xl text-black uppercase tracking-wider">
-                // LIVE_ONE_HOUR_MARKETS
+                // EXTENDED_JUDGED_MARKETS
               </h2>
               <p className="text-xs text-gray-500 mt-0.5">
                 Target: <strong className="text-vortex-accent">GenLayer Studionet ({VORTEX_CONTRACT_ADDRESS.slice(0, 6)}...{VORTEX_CONTRACT_ADDRESS.slice(-4)})</strong>

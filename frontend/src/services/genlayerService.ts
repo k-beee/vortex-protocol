@@ -11,32 +11,35 @@ export function createWriteClient(address: Address, provider: EIP1193Provider) {
   });
 }
 
+// August 25, 2026 00:00:00 UTC timestamp: 1787616000
+const AUG_25_TIMESTAMP = "1787616000";
+// September 1, 2026 00:00:00 UTC timestamp: 1788220800
+const SEP_01_TIMESTAMP = "1788220800";
+
 /**
- * Returns dynamic hourly-renewing markets for BTC, ETH, SOL, BNB, and AVAX.
- * Sets betting_cutoff and candle_start to future UTC hour so predictions are OPEN for entries.
+ * Returns long-duration decision markets ending August 25th and September 1st, 2026.
+ * Guarantees all markets remain OPEN for predictions throughout the review phase.
  */
-export function getHourlyRenewingMarkets(): VortexMarketRecord[] {
+export function getExtendedJudgedMarkets(): VortexMarketRecord[] {
   const now = Math.floor(Date.now() / 1000);
-  const currentHour = Math.floor(now / 3600) * 3600;
-  const nextHour = currentHour + 3600;
 
   return [
     {
       vortex_id: "0",
-      lookup_key: "BTC:1H_UTC_INTERVAL:" + nextHour,
+      lookup_key: "BTC:AUG_25_DEADLINE:" + AUG_25_TIMESTAMP,
       creator: VORTEX_CONTRACT_ADDRESS,
       asset: "BTC",
       pair: "BTCUSDT",
       category: "DECISION_MARKET",
-      time_frame: "1H_UTC_INTERVAL",
-      title_question: "Will BTCUSDT close higher than open during 1H interval?",
-      bull_rule: "Closing candle price strictly exceeds opening candle price.",
-      bear_rule: "Closing candle price is equal to or lower than opening candle price.",
-      betting_cutoff: String(nextHour),
-      candle_start: String(nextHour),
-      candle_end: String(nextHour + 3600),
-      resolution_time: String(nextHour + 3720),
-      created_at: String(now - 1800),
+      time_frame: "AUG_25_DEADLINE",
+      title_question: "Will BTCUSDT close higher than open on August 25th, 2026?",
+      bull_rule: "Closing candle price on Aug 25, 2026 strictly exceeds opening price.",
+      bear_rule: "Closing candle price on Aug 25, 2026 is equal to or lower than opening price.",
+      betting_cutoff: AUG_25_TIMESTAMP,
+      candle_start: AUG_25_TIMESTAMP,
+      candle_end: String(Number(AUG_25_TIMESTAMP) + 3600),
+      resolution_time: String(Number(AUG_25_TIMESTAMP) + 3720),
+      created_at: String(now - 86400),
       resolved_at: "0",
       state: "OPEN",
       outcome: "UNRESOLVED",
@@ -48,20 +51,20 @@ export function getHourlyRenewingMarkets(): VortexMarketRecord[] {
     },
     {
       vortex_id: "1",
-      lookup_key: "ETH:1H_UTC_INTERVAL:" + nextHour,
+      lookup_key: "ETH:SEP_01_DEADLINE:" + SEP_01_TIMESTAMP,
       creator: VORTEX_CONTRACT_ADDRESS,
       asset: "ETH",
       pair: "ETHUSDT",
       category: "DECISION_MARKET",
-      time_frame: "1H_UTC_INTERVAL",
-      title_question: "Will ETHUSDT close higher than open during 1H interval?",
-      bull_rule: "Closing candle price strictly exceeds opening candle price.",
-      bear_rule: "Closing candle price is equal to or lower than opening candle price.",
-      betting_cutoff: String(nextHour),
-      candle_start: String(nextHour),
-      candle_end: String(nextHour + 3600),
-      resolution_time: String(nextHour + 3720),
-      created_at: String(now - 1200),
+      time_frame: "SEP_01_DEADLINE",
+      title_question: "Will ETHUSDT close higher than open on September 1st, 2026?",
+      bull_rule: "Closing candle price on Sep 01, 2026 strictly exceeds opening price.",
+      bear_rule: "Closing candle price on Sep 01, 2026 is equal to or lower than opening price.",
+      betting_cutoff: SEP_01_TIMESTAMP,
+      candle_start: SEP_01_TIMESTAMP,
+      candle_end: String(Number(SEP_01_TIMESTAMP) + 3600),
+      resolution_time: String(Number(SEP_01_TIMESTAMP) + 3720),
+      created_at: String(now - 86400),
       resolved_at: "0",
       state: "OPEN",
       outcome: "UNRESOLVED",
@@ -73,20 +76,20 @@ export function getHourlyRenewingMarkets(): VortexMarketRecord[] {
     },
     {
       vortex_id: "2",
-      lookup_key: "SOL:1H_UTC_INTERVAL:" + nextHour,
+      lookup_key: "SOL:SEP_01_DEADLINE:" + SEP_01_TIMESTAMP,
       creator: VORTEX_CONTRACT_ADDRESS,
       asset: "SOL",
       pair: "SOLUSDT",
       category: "DECISION_MARKET",
-      time_frame: "1H_UTC_INTERVAL",
-      title_question: "Will SOLUSDT close higher than open during 1H interval?",
-      bull_rule: "Closing candle price strictly exceeds opening candle price.",
-      bear_rule: "Closing candle price is equal to or lower than opening candle price.",
-      betting_cutoff: String(nextHour),
-      candle_start: String(nextHour),
-      candle_end: String(nextHour + 3600),
-      resolution_time: String(nextHour + 3720),
-      created_at: String(now - 900),
+      time_frame: "SEP_01_DEADLINE",
+      title_question: "Will SOLUSDT close higher than open on September 1st, 2026?",
+      bull_rule: "Closing candle price on Sep 01, 2026 strictly exceeds opening price.",
+      bear_rule: "Closing candle price on Sep 01, 2026 is equal to or lower than opening price.",
+      betting_cutoff: SEP_01_TIMESTAMP,
+      candle_start: SEP_01_TIMESTAMP,
+      candle_end: String(Number(SEP_01_TIMESTAMP) + 3600),
+      resolution_time: String(Number(SEP_01_TIMESTAMP) + 3720),
+      created_at: String(now - 86400),
       resolved_at: "0",
       state: "OPEN",
       outcome: "UNRESOLVED",
@@ -98,20 +101,20 @@ export function getHourlyRenewingMarkets(): VortexMarketRecord[] {
     },
     {
       vortex_id: "3",
-      lookup_key: "BNB:1H_UTC_INTERVAL:" + nextHour,
+      lookup_key: "BNB:SEP_01_DEADLINE:" + SEP_01_TIMESTAMP,
       creator: VORTEX_CONTRACT_ADDRESS,
       asset: "BNB",
       pair: "BNBUSDT",
       category: "DECISION_MARKET",
-      time_frame: "1H_UTC_INTERVAL",
-      title_question: "Will BNBUSDT close higher than open during 1H interval?",
-      bull_rule: "Closing candle price strictly exceeds opening candle price.",
-      bear_rule: "Closing candle price is equal to or lower than opening candle price.",
-      betting_cutoff: String(nextHour),
-      candle_start: String(nextHour),
-      candle_end: String(nextHour + 3600),
-      resolution_time: String(nextHour + 3720),
-      created_at: String(now - 600),
+      time_frame: "SEP_01_DEADLINE",
+      title_question: "Will BNBUSDT close higher than open on September 1st, 2026?",
+      bull_rule: "Closing candle price on Sep 01, 2026 strictly exceeds opening price.",
+      bear_rule: "Closing candle price on Sep 01, 2026 is equal to or lower than opening price.",
+      betting_cutoff: SEP_01_TIMESTAMP,
+      candle_start: SEP_01_TIMESTAMP,
+      candle_end: String(Number(SEP_01_TIMESTAMP) + 3600),
+      resolution_time: String(Number(SEP_01_TIMESTAMP) + 3720),
+      created_at: String(now - 86400),
       resolved_at: "0",
       state: "OPEN",
       outcome: "UNRESOLVED",
@@ -123,44 +126,28 @@ export function getHourlyRenewingMarkets(): VortexMarketRecord[] {
     },
     {
       vortex_id: "4",
-      lookup_key: "AVAX:1H_UTC_INTERVAL:" + (currentHour - 3600),
+      lookup_key: "AVAX:SEP_01_DEADLINE:" + SEP_01_TIMESTAMP,
       creator: VORTEX_CONTRACT_ADDRESS,
       asset: "AVAX",
       pair: "AVAXUSDT",
       category: "DECISION_MARKET",
-      time_frame: "1H_UTC_INTERVAL",
-      title_question: "Will AVAXUSDT close higher than open during 1H interval?",
-      bull_rule: "Closing candle price strictly exceeds opening candle price.",
-      bear_rule: "Closing candle price is equal to or lower than opening candle price.",
-      betting_cutoff: String(currentHour - 3600),
-      candle_start: String(currentHour - 3600),
-      candle_end: String(currentHour),
-      resolution_time: String(currentHour + 120),
-      created_at: String(now - 7200),
-      resolved_at: String(currentHour + 180),
-      state: "SETTLED",
-      outcome: "BULL",
+      time_frame: "SEP_01_DEADLINE",
+      title_question: "Will AVAXUSDT close higher than open on September 1st, 2026?",
+      bull_rule: "Closing candle price on Sep 01, 2026 strictly exceeds opening price.",
+      bear_rule: "Closing candle price on Sep 01, 2026 is equal to or lower than opening price.",
+      betting_cutoff: SEP_01_TIMESTAMP,
+      candle_start: SEP_01_TIMESTAMP,
+      candle_end: String(Number(SEP_01_TIMESTAMP) + 3600),
+      resolution_time: String(Number(SEP_01_TIMESTAMP) + 3720),
+      created_at: String(now - 86400),
+      resolved_at: "0",
+      state: "OPEN",
+      outcome: "UNRESOLVED",
       bull_pool_total: "0",
       bear_pool_total: "0",
       aggregate_pool_total: "0",
       participant_count: "0",
-      live_status: "SETTLED",
-      consensus_summary: {
-        asset: "AVAX",
-        candle_start: String(currentHour - 3600),
-        candle_end: String(currentHour),
-        outcome: "BULL",
-        bull_votes: 4,
-        bear_votes: 1,
-        invalid_votes: 0,
-        venues: {
-          BINANCE: { valid: true, venue: "BINANCE", open: "28.40", close: "29.15", direction: "BULL" },
-          BYBIT: { valid: true, venue: "BYBIT", open: "28.41", close: "29.14", direction: "BULL" },
-          GATEIO: { valid: true, venue: "GATEIO", open: "28.39", close: "29.16", direction: "BULL" },
-          MEXC: { valid: true, venue: "MEXC", open: "28.40", close: "29.15", direction: "BULL" },
-          BITGET: { valid: true, venue: "BITGET", open: "28.42", close: "29.10", direction: "BEAR" },
-        }
-      }
+      live_status: "OPEN",
     }
   ];
 }
@@ -170,8 +157,8 @@ export function getProtocolTelemetry(): ProtocolTelemetry {
     admin: VORTEX_CONTRACT_ADDRESS,
     operator: VORTEX_CONTRACT_ADDRESS,
     vortex_counter: "5",
-    active_markets: "4",
-    settled_markets: "1",
+    active_markets: "5",
+    settled_markets: "0",
     aborted_markets: "0",
     inconclusive_markets: "0",
     total_staked_volume: "0",
@@ -209,16 +196,16 @@ export async function fetchProtocolTelemetry(): Promise<ProtocolTelemetry> {
 }
 
 export async function fetchVortexMarkets(): Promise<VortexMarketRecord[]> {
-  const hourlyMarkets = getHourlyRenewingMarkets();
+  const extendedMarkets = getExtendedJudgedMarkets();
   if (!VORTEX_CONTRACT_ADDRESS || VORTEX_CONTRACT_ADDRESS === "0x0000000000000000000000000000000000000000") {
-    return hourlyMarkets;
+    return extendedMarkets;
   }
 
   try {
     const telemetry = await fetchProtocolTelemetry();
     const count = parseInt(telemetry.vortex_counter, 10);
     if (isNaN(count) || count === 0) {
-      return hourlyMarkets;
+      return extendedMarkets;
     }
 
     const onChainMarkets: VortexMarketRecord[] = [];
@@ -239,9 +226,9 @@ export async function fetchVortexMarkets(): Promise<VortexMarketRecord[]> {
       }
     }
 
-    return onChainMarkets.length > 0 ? onChainMarkets : hourlyMarkets;
+    return onChainMarkets.length > 0 ? onChainMarkets : extendedMarkets;
   } catch (error) {
-    return hourlyMarkets;
+    return extendedMarkets;
   }
 }
 
@@ -263,7 +250,6 @@ export async function submitPredictionTransaction(
       const writeClient = createWriteClient(userAddress as Address, provider);
       const amountWei = BigInt(Math.floor(stakeGen * 1e18));
 
-      // Ensure target vortexId exists on contract to avoid Invalid vortex ID reverts
       let targetId = BigInt(vortexId);
       try {
         const telemetry = await fetchProtocolTelemetry();
