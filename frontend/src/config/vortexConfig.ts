@@ -4,7 +4,7 @@ import type { Address } from "viem";
 // Target Network: GenLayer Studionet
 export const VORTEX_NETWORK = chains.studionet;
 export const VORTEX_CHAIN_NAME = "GenLayer Studionet";
-export const VORTEX_CHAIN_ID = VORTEX_NETWORK.id;
+export const VORTEX_CHAIN_ID = VORTEX_NETWORK.id || 61757;
 
 // Deployed Intelligent Contract Address on Studionet
 export const VORTEX_CONTRACT_ADDRESS = (import.meta.env.VITE_VORTEX_CONTRACT_ADDRESS ??
@@ -14,6 +14,45 @@ export const VORTEX_CONTRACT_ADDRESS = (import.meta.env.VITE_VORTEX_CONTRACT_ADD
 export const readClient = createClient({
   chain: VORTEX_NETWORK,
 });
+
+/**
+ * Prompts browser Web3 provider (MetaMask / OKX / Rabby) to switch or add GenLayer Studionet
+ */
+export async function ensureStudionetNetwork(provider: any) {
+  if (!provider || !provider.request) return;
+
+  const hexChainId = "0x" + Number(VORTEX_CHAIN_ID).toString(16);
+
+  try {
+    await provider.request({
+      method: "wallet_switchEthereumChain",
+      params: [{ chainId: hexChainId }],
+    });
+  } catch (switchError: any) {
+    if (switchError?.code === 4902 || switchError?.data?.originalError?.code === 4902) {
+      try {
+        await provider.request({
+          method: "wallet_addEthereumChain",
+          params: [
+            {
+              chainId: hexChainId,
+              chainName: VORTEX_CHAIN_NAME,
+              nativeCurrency: {
+                name: "GEN",
+                symbol: "GEN",
+                decimals: 18,
+              },
+              rpcUrls: ["https://studio.genlayer.com/api"],
+              blockExplorerUrls: ["https://studio.genlayer.com"],
+            },
+          ],
+        });
+      } catch (addError) {
+        console.warn("Network prompt warning:", addError);
+      }
+    }
+  }
+}
 
 export const SUPPORTED_ASSETS = ["BTC", "ETH", "SOL", "BNB", "AVAX"] as const;
 export type AssetSymbol = typeof SUPPORTED_ASSETS[number];
