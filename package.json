@@ -1,0 +1,20 @@
+{
+  "name": "vortex-protocol",
+  "version": "1.0.0",
+  "description": "Vortex Protocol — Decentralized Multi-Venue Prediction Engine Powered by GenLayer Consensus on Studionet",
+  "scripts": {
+    "open-markets": "cd frontend && node scripts/open_all_markets.mjs",
+    "test-flow": "cd frontend && node scripts/test_live_flow.mjs",
+    "build:frontend": "cd frontend && npm run build",
+    "build:worker": "cd cron && npm run build"
+  },
+  "keywords": [
+    "genlayer",
+    "studionet",
+    "intelligent-contracts",
+    "prediction-market",
+    "oracle-consensus"
+  ],
+  "author": "k_bee",
+  "license": "MIT"
+}
