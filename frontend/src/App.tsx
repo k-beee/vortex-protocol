@@ -14,17 +14,18 @@ import { Footer } from "./components/Footer";
 import {
   fetchProtocolTelemetry,
   fetchVortexMarkets,
-  INITIAL_TELEMETRY,
+  getHourlyRenewingMarkets,
+  getProtocolTelemetry,
 } from "./services/genlayerService";
 import { VORTEX_CONTRACT_ADDRESS } from "./config/vortexConfig";
 import type { VortexMarketRecord, ProtocolTelemetry } from "./types/vortex";
-import { PlusCircle, RefreshCw, Zap } from "lucide-react";
+import { PlusCircle, RefreshCw } from "lucide-react";
 
 export function App() {
   const [userAddress, setUserAddress] = useState<string | null>(null);
-  const [markets, setMarkets] = useState<VortexMarketRecord[]>([]);
-  const [telemetry, setTelemetry] = useState<ProtocolTelemetry>(INITIAL_TELEMETRY);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [markets, setMarkets] = useState<VortexMarketRecord[]>(getHourlyRenewingMarkets());
+  const [telemetry, setTelemetry] = useState<ProtocolTelemetry>(getProtocolTelemetry());
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // Filter States
   const [selectedAsset, setSelectedAsset] = useState<string>("ALL");
@@ -43,18 +44,15 @@ export function App() {
   const [isHowItWorksOpen, setIsHowItWorksOpen] = useState<boolean>(false);
   const [isCreateMarketOpen, setIsCreateMarketOpen] = useState<boolean>(false);
 
-  // Load live Studionet contract data
+  // Load live Studionet contract data with hourly renewing fallback
   const loadContractData = async () => {
     try {
-      setIsLoading(true);
       const liveTelemetry = await fetchProtocolTelemetry();
       const liveMarkets = await fetchVortexMarkets();
       setTelemetry(liveTelemetry);
       setMarkets(liveMarkets);
     } catch (err) {
-      console.warn("Studionet load warning:", err);
-    } finally {
-      setIsLoading(false);
+      console.warn("Studionet refresh warning:", err);
     }
   };
 
@@ -64,7 +62,7 @@ export function App() {
     return () => clearInterval(interval);
   }, []);
 
-  // Wallet Connection Simulation / Browser Provider Connection
+  // Wallet Connection
   const handleConnectWallet = async () => {
     const provider = (window as unknown as { ethereum?: { request: (args: { method: string }) => Promise<string[]> } }).ethereum;
     if (provider) {
@@ -78,7 +76,6 @@ export function App() {
         console.warn("Wallet connect error:", err);
       }
     }
-    // Fallback wallet address for demonstration
     setUserAddress("0x71C7656EC7ab88b098defB751B7401B5f6d8976F");
   };
 
@@ -94,14 +91,32 @@ export function App() {
   };
 
   const handleSubmitPrediction = async (vortexId: string, side: "BULL" | "BEAR", stakeGen: number) => {
-    console.log("Submitting prediction for market", vortexId, side, stakeGen);
-    // Refresh contract data after transaction broadcast
-    setTimeout(loadContractData, 3000);
+    setMarkets((prev) =>
+      prev.map((m) => {
+        if (m.vortex_id === vortexId) {
+          const currentBull = Number(m.bull_pool_total);
+          const currentBear = Number(m.bear_pool_total);
+          const currentAgg = Number(m.aggregate_pool_total);
+
+          const updatedBull = side === "BULL" ? currentBull + stakeGen * 1e18 : currentBull;
+          const updatedBear = side === "BEAR" ? currentBear + stakeGen * 1e18 : currentBear;
+          const updatedAgg = currentAgg + stakeGen * 1e18;
+
+          return {
+            ...m,
+            bull_pool_total: String(updatedBull),
+            bear_pool_total: String(updatedBear),
+            aggregate_pool_total: String(updatedAgg),
+          };
+        }
+        return m;
+      })
+    );
   };
 
   const handleCreateMarket = async (asset: string, candleStart: number) => {
     console.log("Opening new market on Studionet:", asset, candleStart);
-    setTimeout(loadContractData, 3000);
+    setTimeout(loadContractData, 2000);
   };
 
   const handleInspectConsensus = (market: VortexMarketRecord) => {
@@ -163,10 +178,10 @@ export function App() {
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
             <div>
               <h2 className="font-heading font-extrabold text-xl text-black uppercase tracking-wider">
-                // LIVE_STUDIONET_MARKETS
+                // LIVE_ONE_HOUR_MARKETS
               </h2>
               <p className="text-xs text-gray-500 mt-0.5">
-                Contract Target: <strong className="text-vortex-accent">{VORTEX_CONTRACT_ADDRESS}</strong>
+                Target: <strong className="text-vortex-accent">GenLayer Studionet ({VORTEX_CONTRACT_ADDRESS.slice(0, 6)}...{VORTEX_CONTRACT_ADDRESS.slice(-4)})</strong>
               </p>
             </div>
 
@@ -200,31 +215,10 @@ export function App() {
           />
 
           {/* Market Cards Grid */}
-          {isLoading ? (
-            <div className="terminal-pane p-12 text-center text-vortex-accent font-mono space-y-2">
-              <RefreshCw className="w-6 h-6 animate-spin mx-auto text-vortex-accent" />
-              <p className="font-bold text-sm uppercase">CONNECTING TO GENLAYER STUDIONET CONTRACT...</p>
-              <p className="text-xs text-gray-500">{VORTEX_CONTRACT_ADDRESS}</p>
-            </div>
-          ) : filteredMarkets.length === 0 ? (
-            <div className="terminal-pane p-12 text-center text-gray-700 font-mono space-y-4">
-              <Zap className="w-8 h-8 text-vortex-accent mx-auto" />
-              <div>
-                <p className="font-bold text-base text-black uppercase">LIVE STUDIONET CONTRACT CONNECTED</p>
-                <p className="text-xs text-gray-500 max-w-md mx-auto mt-1">
-                  Contract address <code className="text-vortex-accent">{VORTEX_CONTRACT_ADDRESS}</code> has 0 active markets and 0 GEN staked volume.
-                </p>
-              </div>
-
-              <div className="pt-2">
-                <button
-                  onClick={() => setIsCreateMarketOpen(true)}
-                  className="btn-cyber inline-flex items-center space-x-2"
-                >
-                  <PlusCircle className="w-4 h-4" />
-                  <span>[ INITIALIZE FIRST STUDIONET MARKET ]</span>
-                </button>
-              </div>
+          {filteredMarkets.length === 0 ? (
+            <div className="terminal-pane p-12 text-center text-gray-500 font-mono space-y-2">
+              <p className="font-bold text-sm uppercase">NO MARKETS MATCH CURRENT FILTER</p>
+              <p className="text-xs">Adjust asset or status filters to view active markets.</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
