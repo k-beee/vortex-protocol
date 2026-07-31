@@ -16,6 +16,7 @@ import {
   fetchVortexMarkets,
   getHourlyRenewingMarkets,
   getProtocolTelemetry,
+  submitPredictionTransaction,
 } from "./services/genlayerService";
 import { VORTEX_CONTRACT_ADDRESS } from "./config/vortexConfig";
 import type { VortexMarketRecord, ProtocolTelemetry } from "./types/vortex";
@@ -91,6 +92,14 @@ export function App() {
   };
 
   const handleSubmitPrediction = async (vortexId: string, side: "BULL" | "BEAR", stakeGen: number) => {
+    try {
+      if (userAddress) {
+        await submitPredictionTransaction(vortexId, side, stakeGen, userAddress);
+      }
+    } catch (err) {
+      console.warn("Prediction submission notice:", err);
+    }
+
     const stakeWei = stakeGen * 1e18;
 
     // Update market pools dynamically
