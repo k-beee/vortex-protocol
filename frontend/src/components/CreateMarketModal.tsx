@@ -69,7 +69,7 @@ export const CreateMarketModal: React.FC<CreateMarketModalProps> = ({
               <span className="font-extrabold text-sm text-black uppercase">INITIALIZE STUDIONET MARKET</span>
             </div>
             <p className="text-xs text-gray-600 mt-1">
-              Create an official 1-hour UTC prediction market on your deployed Studionet contract (0x439A...513e).
+              Create an official prediction market on your deployed Studionet contract.
             </p>
           </div>
 

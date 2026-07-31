@@ -13,7 +13,7 @@ export const HowItWorksModal: React.FC<HowItWorksModalProps> = ({ isOpen, onClos
     {
       num: "01",
       title: "MARKET INITIALIZATION",
-      desc: "Authorized market operator creates a 1-hour UTC market for BTC, ETH, SOL, BNB, or AVAX at least 30 minutes in advance.",
+      desc: "Authorized market operator creates a decision market for BTC, ETH, SOL, BNB, or AVAX.",
       icon: Shield,
     },
     {

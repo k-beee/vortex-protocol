@@ -44,7 +44,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           </h1>
 
           <p className="text-gray-700 font-mono text-sm sm:text-base leading-relaxed max-w-2xl">
-            Vortex lets users predict one-hour candle price movements for BTC, ETH, SOL, BNB, and AVAX. 
+            Vortex lets users predict directional price movements for BTC, ETH, SOL, BNB, and AVAX. 
             Outcomes are settled by GenLayer Intelligent Contracts fetching completed candle data directly 
             across 5 major exchanges with 3-of-5 consensus verification.
           </p>

@@ -8,7 +8,7 @@ export const VORTEX_CHAIN_ID = VORTEX_NETWORK.id || 61999;
 
 // Deployed Intelligent Contract Address on Studionet (Admin: 0x4d6D430B92c6252b21278Eb7a71eB61e4CC50f74)
 export const VORTEX_CONTRACT_ADDRESS = (import.meta.env.VITE_VORTEX_CONTRACT_ADDRESS ??
-  "0x9E0Fa9AE695F98Cb66F2e7c758C24e9AAdeC8DA9") as Address;
+  "0x9c939da7CC0B508c7Ae3BCC39980a0462e16c452") as Address;
 
 // GenLayer Read Client configured for Studionet RPC
 export const readClient = createClient({
