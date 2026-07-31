@@ -4,7 +4,6 @@
 
 [![GenLayer Studionet](https://img.shields.io/badge/GenLayer-Studionet-7c3aed?style=for-the-badge&logo=ethereum)](https://docs.genlayer.com)
 [![Studionet Contract](https://img.shields.io/badge/Deployed_Contract-0x9c939da7CC0B508c7Ae3BCC39980a0462e16c452-10b981?style=for-the-badge)](https://studio.genlayer.com)
-[![Staked Volume](https://img.shields.io/badge/Live_Staked_Volume-67.5_GEN-f59e0b?style=for-the-badge)](https://studio.genlayer.com)
 [![Vercel Ready](https://img.shields.io/badge/Vercel-Deployment_Ready-000000?style=for-the-badge&logo=vercel)](https://vercel.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-black.svg?style=for-the-badge)](LICENSE)
 
@@ -27,21 +26,8 @@ Unlike legacy Web3 prediction markets that rely on centralized oracle pushers, s
 | **RPC Endpoint** | `https://studio.genlayer.com/api` |
 | **Intelligent Contract Address** | **`0x9c939da7CC0B508c7Ae3BCC39980a0462e16c452`** |
 | **Contract Admin Address** | `0x4d6D430B92c6252b21278Eb7a71eB61e4CC50f74` |
-| **Total Escrowed Staked Volume** | **`67.5 GEN`** (Across 5 Active Judged Markets) |
-| **Supported Assets** | `BTC/USDT`, `ETH/USDT`, `SOL/USDT`, `BNBUSDT`, `AVAXUSDT` |
+| **Supported Asset Pairs** | `BTC/USDT`, `ETH/USDT`, `SOL/USDT`, `BNB/USDT`, `AVAX/USDT` |
 | **Oracle Venues** | `Binance`, `Bybit`, `Gate.io`, `MEXC`, `Bitget` |
-
----
-
-## 📊 Live Active On-Chain Markets
-
-| Market ID | Pair | Category | End Deadline (UTC) | BULL Pool | BEAR Pool | Aggregate Pool | State |
-|---|---|---|---|---|---|---|---|
-| **`0`** | **BTC/USDT** | Decision Market | **August 25, 2026 00:00 UTC** | 18.0 GEN | 6.0 GEN | **24.0 GEN** | `OPEN` |
-| **`1`** | **ETH/USDT** | Decision Market | **September 1, 2026 00:00 UTC** | 7.0 GEN | 13.5 GEN | **20.5 GEN** | `OPEN` |
-| **`2`** | **SOL/USDT** | Decision Market | **September 1, 2026 00:00 UTC** | 9.0 GEN | 7.5 GEN | **16.5 GEN** | `OPEN` |
-| **`3`** | **BNB/USDT** | Decision Market | **September 1, 2026 00:00 UTC** | 6.5 GEN | 8.0 GEN | **14.5 GEN** | `OPEN` |
-| **`4`** | **AVAX/USDT** | Decision Market | **September 1, 2026 00:00 UTC** | 9.0 GEN | 7.0 GEN | **16.0 GEN** | `OPEN` |
 
 ---
 
