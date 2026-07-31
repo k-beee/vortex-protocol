@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Terminal, Shield, Zap, Globe, Wallet, ExternalLink } from "lucide-react";
-import { VORTEX_CHAIN_NAME, VORTEX_CONTRACT_ADDRESS } from "../config/vortexConfig";
+import { Terminal, Shield, Wallet } from "lucide-react";
+import { VORTEX_CHAIN_NAME } from "../config/vortexConfig";
 
 interface HeaderProps {
   userAddress: string | null;
@@ -27,24 +27,19 @@ export const Header: React.FC<HeaderProps> = ({
     <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-vortex-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         
-        {/* Brand Logo & Title */}
-        <div className="flex items-center space-x-3">
-          <div className="w-9 h-9 bg-black flex items-center justify-center text-vortex-accent font-bold">
-            <Zap className="w-5 h-5 text-vortex-accent" />
+        {/* Brand Title (Logo removed) */}
+        <div>
+          <div className="flex items-center space-x-2">
+            <span className="font-heading font-extrabold text-lg tracking-wider text-black">
+              VORTEX
+            </span>
+            <span className="text-vortex-accent text-xs font-bold font-mono">
+              // ENGINE
+            </span>
           </div>
-          <div>
-            <div className="flex items-center space-x-2">
-              <span className="font-heading font-extrabold text-base tracking-wider text-black">
-                VORTEX
-              </span>
-              <span className="text-vortex-accent text-xs font-bold font-mono">
-                // ENGINE
-              </span>
-            </div>
-            <p className="text-[10px] text-gray-500 font-mono tracking-widest uppercase">
-              Decentralized Consensus Prediction
-            </p>
-          </div>
+          <p className="text-[10px] text-gray-500 font-mono tracking-widest uppercase">
+            Decentralized Consensus Prediction
+          </p>
         </div>
 
         {/* Navigation / Actions */}
