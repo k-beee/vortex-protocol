@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-void: #ffffff;
+    --bg-deep: #f7f5fc;
+    --bg-card: #ffffff;
+    --bg-muted: #f0edf8;
+    --accent-primary: #7c3aed;
+    --accent-purple: #b364ff;
+    --accent-dim: #f3e8ff;
+    --border-color: #ddd8f0;
+    --font-mono: "JetBrains Mono", monospace;
+  }
+
+  body {
+    font-family: var(--font-mono);
+    background-color: #ffffff;
+    background-image: radial-gradient(circle, #c8b8e8 1px, transparent 1px);
+    background-size: 24px 24px;
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+}
+
+/* Custom Cyber Terminal Utilities inspired by memoriada */
+.terminal-pane {
+  border: 1px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+}
+
+.pane-titlebar {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #7c3aed;
+  border-bottom: 1px solid var(--border-color);
+  background: var(--bg-deep);
+  padding: 6px 14px;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.btn-cyber {
+  font-family: var(--font-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: all 0.15s ease;
+  background: #000000;
+  color: #ffffff;
+  border: 1px solid #000000;
+  padding: 10px 24px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.btn-cyber:hover {
+  background: #7c3aed;
+  border-color: #7c3aed;
+  color: #ffffff;
+}
+
+.btn-cyber-outline {
+  font-family: var(--font-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: all 0.15s ease;
+  background: transparent;
+  color: #7c3aed;
+  border: 1px solid var(--border-color);
+  padding: 10px 24px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.btn-cyber-outline:hover {
+  background: #f3e8ff;
+  border-color: #7c3aed;
+  color: #000000;
+}
+
+.cyber-badge {
+  font-family: var(--font-mono);
+  color: #7c3aed;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 1px solid var(--border-color);
+  background: var(--accent-dim);
+  padding: 4px 10px;
+  font-size: 0.65rem;
+  font-weight: 700;
+}
