@@ -22,10 +22,9 @@ Unlike legacy Web3 prediction markets that rely on centralized oracle pushers, s
 | Parameter | Specification Details |
 |---|---|
 | **Target Network** | Genlayer Studio Network (**Studionet**) |
-| **Chain ID (Decimal / Hex)** | **`61999`** / **`0xF22F`** |
+| **Chain ID (Decimal / Hex)** | **`61999`** / |
 | **RPC Endpoint** | `https://studio.genlayer.com/api` |
 | **Intelligent Contract Address** | **`0x9c939da7CC0B508c7Ae3BCC39980a0462e16c452`** |
-| **Contract Admin Address** | `0x4d6D430B92c6252b21278Eb7a71eB61e4CC50f74` |
 | **Supported Asset Pairs** | `BTC/USDT`, `ETH/USDT`, `SOL/USDT`, `BNB/USDT`, `AVAX/USDT` |
 | **Oracle Venues** | `Binance`, `Bybit`, `Gate.io`, `MEXC`, `Bitget` |
 
