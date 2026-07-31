@@ -27,9 +27,9 @@ export const MarketCard: React.FC<MarketCardProps> = ({
     return val.toLocaleString(undefined, { maximumFractionDigits: 1 }) + " GEN";
   };
 
-  const formatUtcTime = (timestampStr: string) => {
+  const formatUtcDate = (timestampStr: string) => {
     const d = new Date(Number(timestampStr) * 1000);
-    return d.toISOString().slice(11, 16) + " UTC";
+    return d.toISOString().replace("T", " ").slice(0, 16) + " UTC";
   };
 
   useEffect(() => {
@@ -45,9 +45,20 @@ export const MarketCard: React.FC<MarketCardProps> = ({
           setTimeLeft(market.state);
         }
       } else {
-        const mins = Math.floor(diff / 60);
+        const days = Math.floor(diff / 86400);
+        const hours = Math.floor((diff % 86400) / 3600);
+        const mins = Math.floor((diff % 3600) / 60);
         const secs = diff % 60;
-        setTimeLeft(`${mins}m ${secs < 10 ? "0" : ""}${secs}s TO CLOSE`);
+
+        const secStr = secs < 10 ? `0${secs}` : `${secs}`;
+
+        if (days > 0) {
+          setTimeLeft(`${days}d ${hours}h ${mins}m ${secStr}s`);
+        } else if (hours > 0) {
+          setTimeLeft(`${hours}h ${mins}m ${secStr}s`);
+        } else {
+          setTimeLeft(`${mins}m ${secStr}s`);
+        }
       }
     };
 
@@ -95,16 +106,16 @@ export const MarketCard: React.FC<MarketCardProps> = ({
         {/* Time Window Details */}
         <div className="bg-vortex-deep p-3 border border-vortex-border mb-4 text-xs space-y-1">
           <div className="flex justify-between text-gray-500 text-[11px]">
-            <span>UTC INTERVAL:</span>
+            <span>DEADLINE:</span>
             <span className="text-black font-bold">
-              {formatUtcTime(market.candle_start)} - {formatUtcTime(market.candle_end)}
+              {formatUtcDate(market.candle_start)}
             </span>
           </div>
           <div className="flex justify-between items-center pt-1 border-t border-vortex-border/50 text-[11px]">
             <span className="flex items-center text-gray-500">
-              <Clock className="w-3 h-3 mr-1 text-vortex-accent" /> COUNTDOWN:
+              <Clock className="w-3 h-3 mr-1 text-vortex-accent" /> REMAINING:
             </span>
-            <span className="font-bold text-vortex-accent">{timeLeft}</span>
+            <span className="font-bold text-vortex-accent tracking-wide">{timeLeft}</span>
           </div>
         </div>
 
