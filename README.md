@@ -3,18 +3,19 @@
 > **Decentralized Multi-Venue Prediction Engine Powered by GenLayer Consensus on Studionet**
 
 [![GenLayer Studionet](https://img.shields.io/badge/GenLayer-Studionet-7c3aed?style=for-the-badge&logo=ethereum)](https://docs.genlayer.com)
-[![Contract Deployed](https://img.shields.io/badge/Studionet_Contract-0x439A57ae7163a9100fCA2a04dfB827475Db3513e-10b981?style=for-the-badge)](https://github.com/k-beee/vortex-protocol)
+[![Contract Deployed](https://img.shields.io/badge/Studionet_Contract-0x9E0Fa9AE695F98Cb66F2e7c758C24e9AAdeC8DA9-10b981?style=for-the-badge)](https://github.com/k-beee/vortex-protocol)
 [![Vercel Ready](https://img.shields.io/badge/Vercel-Deployment_Ready-000000?style=for-the-badge&logo=vercel)](https://vercel.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-black.svg?style=for-the-badge)](LICENSE)
 
-Vortex Protocol is a high-assurance prediction engine engineered on GenLayer Studionet. It enables users to stake GEN on short-duration (1-hour UTC) directional price movements across top crypto assets (**BTC, ETH, SOL, BNB, AVAX**). Rather than relying on a single oracle or centralized operator, Vortex settles outcomes through an Intelligent Contract deployed on GenLayer Studionet (`0x439A57ae7163a9100fCA2a04dfB827475Db3513e`) that fetches completed 1-hour candle data directly across five independent spot exchanges and enforces a strict 3-of-5 validator consensus.
+Vortex Protocol is a high-assurance prediction engine engineered on GenLayer Studionet. It enables users to stake GEN on short-duration (1-hour UTC) directional price movements across top crypto assets (**BTC, ETH, SOL, BNB, AVAX**). Rather than relying on a single oracle or centralized operator, Vortex settles outcomes through an Intelligent Contract deployed on GenLayer Studionet (`0x9E0Fa9AE695F98Cb66F2e7c758C24e9AAdeC8DA9`) that fetches completed 1-hour candle data directly across five independent spot exchanges and enforces a strict 3-of-5 validator consensus.
 
 ---
 
 ## 📍 Deployed Contract Information
 
-- **Network:** GenLayer Studionet
-- **Intelligent Contract Address:** `0x439A57ae7163a9100fCA2a04dfB827475Db3513e`
+- **Network:** Genlayer Studio Network (Chain ID: `61999` / `0xF22F`)
+- **Intelligent Contract Address:** `0x9E0Fa9AE695F98Cb66F2e7c758C24e9AAdeC8DA9`
+- **Contract Admin:** `0x4d6D430B92c6252b21278Eb7a71eB61e4CC50f74`
 - **Source Code:** [`contract/VortexEngine.py`](contract/VortexEngine.py)
 
 ---
@@ -27,7 +28,7 @@ Below is the end-to-end consensus and settlement pipeline governing Vortex Proto
 flowchart TD
     subgraph Client_Layer ["Client & Wallet Execution"]
         U1["User Wallet"] -->|Submit Signed Bet| F["Vortex Cyber-Terminal UI"]
-        F -->|Read State & Signed Writes| C1["VortexEngine Intelligent Contract (0x439A...)"]
+        F -->|Read State & Signed Writes| C1["VortexEngine Intelligent Contract (0x9E0F...)"]
     end
 
     subgraph Automation_Layer ["Automated Scheduling"]
