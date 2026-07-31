@@ -1,0 +1,11 @@
+name = "vortex-settlement-worker"
+main = "src/index.ts"
+compatibility_date = "2024-03-20"
+
+[triggers]
+crons = ["* * * * *"] # Executes every 1 minute
+
+[vars]
+GENLAYER_NETWORK = "studionet"
+VORTEX_CONTRACT_ADDRESS = "0x0000000000000000000000000000000000000000"
+SETTLEMENT_SAFETY_GRACE_PERIOD_SECONDS = "120"
