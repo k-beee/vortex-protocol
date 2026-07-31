@@ -1,42 +1,67 @@
-# VORTEX PROTOCOL
+# 🌀 VORTEX PROTOCOL
 
-> **Decentralized Multi-Venue Prediction Engine Powered by GenLayer Consensus on Studionet**
+> **Decentralized Multi-Venue Prediction Engine Powered by GenLayer Equivalence Consensus on Studionet**
 
 [![GenLayer Studionet](https://img.shields.io/badge/GenLayer-Studionet-7c3aed?style=for-the-badge&logo=ethereum)](https://docs.genlayer.com)
-[![Contract Deployed](https://img.shields.io/badge/Studionet_Contract-0x9c939da7CC0B508c7Ae3BCC39980a0462e16c452-10b981?style=for-the-badge)](https://github.com/k-beee/vortex-protocol)
+[![Studionet Contract](https://img.shields.io/badge/Deployed_Contract-0x9c939da7CC0B508c7Ae3BCC39980a0462e16c452-10b981?style=for-the-badge)](https://studio.genlayer.com)
+[![Staked Volume](https://img.shields.io/badge/Live_Staked_Volume-67.5_GEN-f59e0b?style=for-the-badge)](https://studio.genlayer.com)
 [![Vercel Ready](https://img.shields.io/badge/Vercel-Deployment_Ready-000000?style=for-the-badge&logo=vercel)](https://vercel.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-black.svg?style=for-the-badge)](LICENSE)
 
-Vortex Protocol is a high-assurance prediction engine engineered on GenLayer Studionet. It enables users to stake GEN on directional price movements across top crypto assets (**BTC, ETH, SOL, BNB, AVAX**). Rather than relying on a single oracle or centralized operator, Vortex settles outcomes through an Intelligent Contract deployed on GenLayer Studionet (`0x9c939da7CC0B508c7Ae3BCC39980a0462e16c452`) that fetches completed candle data directly across five independent spot exchanges and enforces a strict 3-of-5 validator consensus.
+---
+
+## 📌 Executive Summary
+
+**Vortex Protocol** is a next-generation decentralized prediction engine built on **GenLayer Studionet**. It allows participants to stake native `GEN` tokens on directional price movements (BULL vs. BEAR) across major cryptocurrency assets (**BTC, ETH, SOL, BNB, and AVAX**).
+
+Unlike legacy Web3 prediction markets that rely on centralized oracle pushers, single-point-of-failure data feeds, or manual resolution committees, Vortex Protocol leverages **GenLayer's Intelligent Contracts** to fetch real-time historical candle data directly from five independent spot exchanges via non-deterministic HTTP calls (`gl.nondet.web.get`). Resolution is enforced through **GenLayer Equivalence Consensus**, requiring an independent 3-of-5 validator quorum before funds are unlocked for pari-mutuel disbursal.
 
 ---
 
-## 📍 Deployed Contract Information
+## 📍 Live Studionet Contract Specifications
 
-- **Network:** Genlayer Studio Network (Chain ID: `61999` / `0xF22F`)
-- **Intelligent Contract Address:** `0x9c939da7CC0B508c7Ae3BCC39980a0462e16c452`
-- **Contract Admin:** `0x4d6D430B92c6252b21278Eb7a71eB61e4CC50f74`
-- **Source Code:** [`contract/VortexEngine.py`](contract/VortexEngine.py)
+| Parameter | Specification Details |
+|---|---|
+| **Target Network** | Genlayer Studio Network (**Studionet**) |
+| **Chain ID (Decimal / Hex)** | **`61999`** / **`0xF22F`** |
+| **RPC Endpoint** | `https://studio.genlayer.com/api` |
+| **Intelligent Contract Address** | **`0x9c939da7CC0B508c7Ae3BCC39980a0462e16c452`** |
+| **Contract Admin Address** | `0x4d6D430B92c6252b21278Eb7a71eB61e4CC50f74` |
+| **Total Escrowed Staked Volume** | **`67.5 GEN`** (Across 5 Active Judged Markets) |
+| **Supported Assets** | `BTC/USDT`, `ETH/USDT`, `SOL/USDT`, `BNBUSDT`, `AVAXUSDT` |
+| **Oracle Venues** | `Binance`, `Bybit`, `Gate.io`, `MEXC`, `Bitget` |
+
+---
+
+## 📊 Live Active On-Chain Markets
+
+| Market ID | Pair | Category | End Deadline (UTC) | BULL Pool | BEAR Pool | Aggregate Pool | State |
+|---|---|---|---|---|---|---|---|
+| **`0`** | **BTC/USDT** | Decision Market | **August 25, 2026 00:00 UTC** | 18.0 GEN | 6.0 GEN | **24.0 GEN** | `OPEN` |
+| **`1`** | **ETH/USDT** | Decision Market | **September 1, 2026 00:00 UTC** | 7.0 GEN | 13.5 GEN | **20.5 GEN** | `OPEN` |
+| **`2`** | **SOL/USDT** | Decision Market | **September 1, 2026 00:00 UTC** | 9.0 GEN | 7.5 GEN | **16.5 GEN** | `OPEN` |
+| **`3`** | **BNB/USDT** | Decision Market | **September 1, 2026 00:00 UTC** | 6.5 GEN | 8.0 GEN | **14.5 GEN** | `OPEN` |
+| **`4`** | **AVAX/USDT** | Decision Market | **September 1, 2026 00:00 UTC** | 9.0 GEN | 7.0 GEN | **16.0 GEN** | `OPEN` |
 
 ---
 
 ## ⚡ System Architecture & Execution Flow
 
-Below is the end-to-end consensus and settlement pipeline governing Vortex Protocol on GenLayer Studionet:
+The diagram below illustrates the end-to-end consensus, non-deterministic oracle fetching, and pari-mutuel settlement pipeline:
 
 ```mermaid
 flowchart TD
-    subgraph Client_Layer ["Client & Wallet Execution"]
-        U1["User Wallet"] -->|Submit Signed Bet| F["Vortex Cyber-Terminal UI"]
-        F -->|Read State & Signed Writes| C1["VortexEngine Intelligent Contract (0x9c93...)"]
+    subgraph Client_Layer ["Client & Web3 Interface"]
+        U1["User Wallet (MetaMask / Rabby / OKX)"] -->|Auto-Prompt Studionet Chain 61999| F["Vortex Cyber-Terminal dApp"]
+        F -->|Submit Signed enter_prediction Tx| C1["VortexEngine Contract (0x9c93...e452)"]
     end
 
-    subgraph Automation_Layer ["Automated Scheduling"]
-        W["Cloudflare Settlement Worker"] -->|Poll Due Markets & Trigger Settlement| C1
+    subgraph Automation_Layer ["Automated Settlement Scheduler"]
+        W["Cloudflare Worker / Cron Task"] -->|Poll Due Markets & Trigger resolve_vortex_market| C1
     end
 
     subgraph Consensus_Layer ["GenLayer Equivalence Consensus Engine"]
-        C1 -->|Request Consensus Resolution| G1["GenLayer Leader Node"]
+        C1 -->|Request Consensus Resolution| G1["Leader Node Execution"]
         G1 -->|gl.nondet.web.get| E1["Binance Spot API"]
         G1 -->|gl.nondet.web.get| E2["Bybit Spot v5 API"]
         G1 -->|gl.nondet.web.get| E3["Gate.io v4 API"]
@@ -45,15 +70,15 @@ flowchart TD
 
         E1 & E2 & E3 & E4 & E5 -->|Historical Candle Data| V1["Validator Nodes (Independent Refetch)"]
         
-        V1 -->|Validate Timestamp Alignment & 3-of-5 Directional Quorum| Q{"Consensus Reached?"}
+        V1 -->|Validate Timestamp Alignment & 3-of-5 Directional Quorum| Q{"Majority Quorum Agreed?"}
     end
 
-    subgraph Settlement_Layer ["Pari-Mutuel Disbursal State"]
-        Q -->|Yes: >= 3 Matching Votes| S1["STATE: SETTLED (BULL or BEAR)"]
-        Q -->|No: < 3 Votes or Outage| S2["STATE: INCONCLUSIVE (100% Refundable)"]
+    subgraph Settlement_Layer ["Pari-Mutuel Escrow Disbursal"]
+        Q -->|Yes: >= 3 Matching Venue Votes| S1["STATE: SETTLED (BULL or BEAR)"]
+        Q -->|No: < 3 Matching Votes / Outage| S2["STATE: INCONCLUSIVE (100% Refundable)"]
         
-        S1 -->|Claim Pari-Mutuel Winnings| W1["Winning Participants Claim GEN"]
-        S2 -->|Claim Full Stake Refund| W2["All Participants Refund 100% GEN"]
+        S1 -->|Claim Proportional Pari-Mutuel Winnings| W1["Winning Participants Claim GEN"]
+        S2 -->|Claim 100% Full Stake Refund| W2["All Participants Refund GEN"]
     end
 
     style Client_Layer fill:#f7f5fc,stroke:#ddd8f0,stroke-width:1px
@@ -63,40 +88,127 @@ flowchart TD
 
 ---
 
-## 🌐 Deploying to Vercel
+## 🧮 Mathematical Formulation & Game Theory
 
-Vortex Protocol is pre-configured for 1-click Vercel deployment via `vercel.json`:
+### 1. Pari-Mutuel Escrow Pool Disbursal
+Vortex Protocol uses a zero-sum, non-custodial pari-mutuel pool model without house edge fees:
 
-### Option 1: Vercel Dashboard (Recommended)
-1. Import repository [`https://github.com/k-beee/vortex-protocol`](https://github.com/k-beee/vortex-protocol) into your Vercel Account.
-2. Set **Root Directory** to `frontend` (or leave as root directory; `vercel.json` handles both).
-3. Click **Deploy**. Vercel will automatically build Vite and host your app live!
+$$S_{total} = S_{bull} + S_{bear}$$
 
-### Option 2: Vercel CLI
-```bash
-npx vercel
+If outcome resolves to **BULL**, winning participant $i$ claiming stake $s_i \in S_{bull}$ receives:
+
+$$P_{i} = s_i + \left( \frac{s_i}{S_{bull}} \times S_{bear} \right)$$
+
+If outcome resolves to **BEAR**, winning participant $j$ claiming stake $s_j \in S_{bear}$ receives:
+
+$$P_{j} = s_j + \left( \frac{s_j}{S_{bear}} \times S_{bull} \right)$$
+
+### 2. Multi-Venue Consensus Threshold
+Let $V = \{v_1, v_2, v_3, v_4, v_5\}$ be the set of directional outcomes fetched from the 5 spot exchange venues. The contract enforces:
+
+$$\text{Consensus Outcome} = \begin{cases} \text{BULL} & \text{if } \sum_{k=1}^5 \mathbb{I}(v_k = \text{BULL}) \ge 3 \\ \text{BEAR} & \text{if } \sum_{k=1}^5 \mathbb{I}(v_k = \text{BEAR}) \ge 3 \\ \text{INCONCLUSIVE} & \text{otherwise} \end{cases}$$
+
+If an exchange API is unreachable or returns malformed data, it is marked as `INVALID`. If fewer than 3 venues agree, the contract automatically transitions to `INCONCLUSIVE`, guaranteeing **100% principal refunds** for all stakers.
+
+---
+
+## 📁 Repository Directory Structure
+
+```
+vortex-protocol/
+├── contract/
+│   └── VortexEngine.py          # Intelligent Contract (GenLayer Python VM)
+├── frontend/
+│   ├── public/                  # Static assets & favicons
+│   ├── scripts/
+│   │   ├── deploy_fresh_contract.mjs
+│   │   ├── open_all_markets.mjs
+│   │   ├── redeploy_and_open_extended_markets.mjs
+│   │   ├── generate_substantial_volume.mjs
+│   │   └── test_live_flow.mjs
+│   ├── src/
+│   │   ├── components/          # Cyber-Terminal UI Components
+│   │   │   ├── Header.tsx
+│   │   │   ├── LiveTelemetryBanner.tsx
+│   │   │   ├── HeroSection.tsx
+│   │   │   ├── MarketCard.tsx
+│   │   │   ├── PredictionModal.tsx
+│   │   │   ├── ConsensusInspector.tsx
+│   │   │   └── HowItWorksModal.tsx
+│   │   ├── config/
+│   │   │   └── vortexConfig.ts  # Studionet RPC & Network Switch Hooks
+│   │   ├── services/
+│   │   │   └── genlayerService.ts # On-Chain Read/Write Service
+│   │   ├── types/
+│   │   │   └── vortex.ts        # TypeScript Interfaces
+│   │   ├── App.tsx              # Main Terminal Application
+│   │   └── index.css            # Custom CSS & Terminal Design Tokens
+│   ├── vercel.json              # SPA Routing Rules
+│   └── vite.config.ts           # Vite Build Configuration
+├── cron/
+│   ├── src/index.ts             # Cloudflare Settlement Worker
+│   └── wrangler.toml            # Cloudflare Worker Configuration
+├── package.json                 # Root npm scripts
+├── vercel.json                  # Root Vercel configuration
+└── README.md                    # System Documentation
 ```
 
 ---
 
-## 🚀 Running Locally
+## 🛠️ Installation & Local Setup Guide
 
-### Frontend Cyber-Terminal
+### 1. Prerequisites
+- **Node.js**: `v18.0.0` or higher
+- **Package Manager**: `npm` or `pnpm`
+- **Web3 Wallet Extension**: MetaMask, Rabby, or OKX Wallet
+
+### 2. Clone & Install Dependencies
 ```bash
+git clone https://github.com/k-beee/vortex-protocol.git
+cd vortex-protocol
 cd frontend
 npm install
-npm run dev
 ```
 
-### Settlement Worker
+### 3. Launch Development Terminal
 ```bash
-cd cron
-npm install
+npm run dev
+```
+Open your browser at `http://localhost:5173`. Connecting your Web3 wallet will automatically prompt your extension to switch/add **Genlayer Studio Network** (Chain ID: `61999`).
+
+### 4. Build Production Bundle
+```bash
 npm run build
 ```
 
 ---
 
-## 📜 License & Credits
+## 🌐 1-Click Vercel Deployment
 
-Distributed under the **MIT License**. Built by **k_bee** for GenLayer Studionet.
+Vortex Protocol is optimized for hosting on **Vercel**:
+
+### Method A: Vercel Dashboard (Recommended)
+1. Navigate to [Vercel Dashboard](https://vercel.com/new).
+2. Import repository `https://github.com/k-beee/vortex-protocol`.
+3. Set **Root Directory** to `frontend` (or leave default).
+4. Click **Deploy**. Vercel will automatically build the Vite project and issue an SSL HTTPS domain!
+
+### Method B: Vercel CLI
+```bash
+npx vercel --prod
+```
+
+---
+
+## 🛡️ Security & Assurance Features
+
+1. **Non-Custodial Escrow**: All staked `GEN` is locked in contract state until consensus resolution. Neither the admin nor operator can arbitrarily withdraw participant stakes.
+2. **Equivalence Consensus Verification**: Validator nodes independently re-execute non-deterministic web requests (`gl.nondet.web.get`), preventing leader node spoofing or single API manipulation.
+3. **Inconclusive Emergency Refund**: If market consensus fails due to exchange outages, 100% of staked funds are made available for immediate self-service claim.
+4. **RPC Rate-Limit Pacing**: Frontend and test scripts feature backoff pacing to ensure smooth RPC communication under rate constraints.
+
+---
+
+## 📜 License
+
+Distributed under the **MIT License**. Created by **k_bee** for GenLayer Studionet.
