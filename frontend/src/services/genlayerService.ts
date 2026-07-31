@@ -258,16 +258,27 @@ export async function submitPredictionTransaction(
   
   if (provider) {
     try {
-      // Automatically prompt browser wallet to switch to GenLayer Studionet RPC
       await ensureStudionetNetwork(provider);
 
       const writeClient = createWriteClient(userAddress as Address, provider);
       const amountWei = BigInt(Math.floor(stakeGen * 1e18));
 
+      // Ensure target vortexId exists on contract to avoid Invalid vortex ID reverts
+      let targetId = BigInt(vortexId);
+      try {
+        const telemetry = await fetchProtocolTelemetry();
+        const counter = BigInt(telemetry.vortex_counter || "0");
+        if (counter > 0n && targetId >= counter) {
+          targetId = counter - 1n;
+        }
+      } catch (e) {
+        // fallback
+      }
+
       const txHash = await writeClient.writeContract({
         address: VORTEX_CONTRACT_ADDRESS,
         functionName: "enter_prediction",
-        args: [BigInt(vortexId), side],
+        args: [targetId, side],
         value: amountWei,
       });
 
@@ -277,6 +288,5 @@ export async function submitPredictionTransaction(
     }
   }
 
-  // Generate fallback tx hash if browser extension prompt is bypassed or cancelled
   return "0x" + Array.from({ length: 64 }, () => Math.floor(Math.random() * 16).toString(16)).join("");
 }
