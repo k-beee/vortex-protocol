@@ -1,0 +1,21 @@
+{
+  "name": "vortex-settlement-worker",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Automated Cloudflare Settlement Worker for Vortex Protocol on GenLayer Studionet",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "build": "wrangler deploy --dry-run"
+  },
+  "dependencies": {
+    "genlayer-js": "^1.1.8",
+    "viem": "^2.8.18"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240329.0",
+    "typescript": "^5.4.3",
+    "wrangler": "^3.40.0"
+  }
+}
