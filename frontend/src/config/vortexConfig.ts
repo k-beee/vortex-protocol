@@ -1,10 +1,10 @@
 import { createClient, chains } from "genlayer-js";
 import type { Address } from "viem";
 
-// Target Network: GenLayer Studionet
+// Target Network: GenLayer Studionet (Exact Chain ID: 61999 / 0xF22F)
 export const VORTEX_NETWORK = chains.studionet;
-export const VORTEX_CHAIN_NAME = "GenLayer Studionet";
-export const VORTEX_CHAIN_ID = VORTEX_NETWORK.id || 61757;
+export const VORTEX_CHAIN_NAME = "Genlayer Studio Network";
+export const VORTEX_CHAIN_ID = VORTEX_NETWORK.id || 61999;
 
 // Deployed Intelligent Contract Address on Studionet
 export const VORTEX_CONTRACT_ADDRESS = (import.meta.env.VITE_VORTEX_CONTRACT_ADDRESS ??
@@ -16,12 +16,13 @@ export const readClient = createClient({
 });
 
 /**
- * Prompts browser Web3 provider (MetaMask / OKX / Rabby) to switch or add GenLayer Studionet
+ * Prompts browser Web3 provider (MetaMask / OKX / Rabby) to switch or add GenLayer Studionet (Chain ID: 61999)
  */
 export async function ensureStudionetNetwork(provider: any) {
   if (!provider || !provider.request) return;
 
-  const hexChainId = "0x" + Number(VORTEX_CHAIN_ID).toString(16);
+  const numericChainId = VORTEX_CHAIN_ID;
+  const hexChainId = "0x" + Number(numericChainId).toString(16); // 0xF22F for 61999
 
   try {
     await provider.request({
@@ -38,7 +39,7 @@ export async function ensureStudionetNetwork(provider: any) {
               chainId: hexChainId,
               chainName: VORTEX_CHAIN_NAME,
               nativeCurrency: {
-                name: "GEN",
+                name: "GEN Token",
                 symbol: "GEN",
                 decimals: 18,
               },
